@@ -35,5 +35,6 @@ jobs:
 
       - name: Build with Maven
         run: mvn ${{ inputs.maven-args }}
+        working-directory: ${{ inputs.working-directory }}
 
 
