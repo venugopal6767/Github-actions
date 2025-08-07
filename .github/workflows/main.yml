@@ -12,7 +12,7 @@ jobs:
 
   file-scan:
     needs: checkout
-    uses: ./.github/workflows/file-scan.yml
+    uses: ./.github/workflows/trivyfs.yml
     with:
       working-directory: java-app
 
