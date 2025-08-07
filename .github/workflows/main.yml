@@ -29,7 +29,8 @@ jobs:
     with:
       image-name: Venuzs/java-app
       image-tag: ${{ github.run_number }}
-      context: .
+      context: java-app/
+      working-directory: java-app/
       dockerfile-path: java-app/Dockerfile
 
   trivy-image-scan:
