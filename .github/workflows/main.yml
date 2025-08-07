@@ -8,24 +8,24 @@ on:
 
 jobs:
   checkout:
-    uses: ./.github/workflows/checkoutcode.yml@main
+    uses: ./.github/workflows/checkoutcode.yml
 
   file-scan:
     needs: checkout
-    uses: ./.github/workflows/file-scan.yml@main
+    uses: ./.github/workflows/file-scan.yml
     with:
       working-directory: java-app
 
   build-java:
     needs: file-scan
-    uses: ./.github/workflows/java.yml@main 
+    uses: ./.github/workflows/java.yml
     with:
       java-version: '17'
       working-directory: java-app
 
   docker-build:
     needs: build-java
-    uses: ./.github/workflows/docker-build-tag.yml@main
+    uses: ./.github/workflows/docker-build-tag.yml
     with:
       image-name: Venuzs/java-app
       image-tag: ${{ github.run_number }}
@@ -34,14 +34,14 @@ jobs:
 
   trivy-image-scan:
     needs: docker-build
-    uses: ./.github/workflows/trivyimagescan.yml@main
+    uses: ./.github/workflows/trivyimagescan.yml
     with:
       image-name: Venuzs/java-app
       image-tag: ${{ github.run_number }}
 
   dockerhub-push:
     needs: trivy-image-scan
-    uses: ./.github/workflows/docker-push.yml@main
+    uses: ./.github/workflows/docker-push.yml
     with:
       image-name:  Venuzs/java-app
       image-tag: ${{ github.run_number }}
