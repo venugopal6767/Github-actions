@@ -11,6 +11,10 @@ on:
         required: false
         type: string
         default: 'clean install'
+      working-directory:
+        required: false     
+        type: string  
+        default: .
 
 jobs:
   java-build:
