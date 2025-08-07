@@ -1,0 +1,33 @@
+name: Trivy FS Scan
+
+on:
+  workflow_call:
+    inputs:
+      image-name:
+        required: true
+        type: string
+      image-tag:
+        required: false
+        type: string
+        default: latest
+
+jobs:
+  trivy-fs:
+    name: Trivy File System Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Trivy
+        run: |
+          sudo apt-get update
+          sudo apt-get install wget -y
+          wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.51.1_Linux-64bit.deb
+          sudo dpkg -i trivy_0.51.1_Linux-64bit.deb
+          trivy --version
+
+      - name: Trivy Image Scan
+        run: |
+          trivy image --format table -o trivy-image-report.txt ${{ inputs.image-name }}:${{ inputs.image-tag }}

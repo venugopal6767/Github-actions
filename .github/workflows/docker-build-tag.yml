@@ -1,0 +1,37 @@
+name: Docker Build and Tag
+
+on:
+  workflow_call:
+    inputs:
+      image-name:
+        required: true
+        type: string
+      image-tag:
+        required: false
+        type: string
+        default: latest
+      dockerfile-path:
+        required: false
+        type: string
+        default: ./Dockerfile
+      context:
+        required: false
+        type: string
+        default: .
+
+ 
+
+jobs:
+  docker-build-tag:
+    name: Build and Tag Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+
+      - name: Build Docker Image
+        run: |
+          docker build -t ${{ inputs.image-name }}:${{ inputs.image-tag }} \
+            -f ${{ inputs.dockerfile-path }} ${{ inputs.context }}

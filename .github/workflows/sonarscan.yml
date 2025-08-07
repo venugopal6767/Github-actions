@@ -1,0 +1,44 @@
+name: SonarQube Scan
+
+on:
+  workflow_call:
+    inputs:
+      project-key:
+        required: true
+        type: string
+      project-name:
+        required: true
+        type: string
+      project-base-dir:
+        required: false
+        type: string
+        default: '.'
+    secrets:
+      SONAR_TOKEN:
+        required: true
+      SONAR_HOST_URL:
+        required: true
+
+jobs:
+  sonar-scan:
+    name: SonarQube Code Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for proper blame and analysis
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v2.0.2
+        with:
+          projectBaseDir: ${{ inputs.project-base-dir }}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      - name: SonarQube Quality Gate Check
+        uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

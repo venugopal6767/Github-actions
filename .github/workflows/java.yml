@@ -1,0 +1,35 @@
+name: Java Maven Build
+
+on:
+  workflow_call:
+    inputs:
+      java-version:
+        required: false
+        type: string
+        default: '17'
+      maven-args:
+        required: false
+        type: string
+        default: 'clean install'
+
+jobs:
+  java-build:
+    name: Java Maven Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Java ${{ inputs.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ inputs.java-version }}
+
+      - name: Build with Maven
+        run: mvn ${{ inputs.maven-args }}
+
+

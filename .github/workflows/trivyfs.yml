@@ -1,0 +1,24 @@
+name: Trivy FS Scan
+
+on:
+  workflow_call:
+
+jobs:
+  trivy-fs:
+    name: Trivy File System Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Trivy
+        run: |
+          sudo apt-get update
+          sudo apt-get install wget -y
+          wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.51.1_Linux-64bit.deb
+          sudo dpkg -i trivy_0.51.1_Linux-64bit.deb
+          trivy --version
+
+      - name: Trivy FS Scan
+        run: trivy fs --format table -o fs-report.json .
