@@ -1,3 +1,5 @@
+
+
 name: Checkout Code
 
 on:
@@ -5,9 +7,7 @@ on:
 
 jobs:
   checkout:
-    name: Checkout Source
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v4
