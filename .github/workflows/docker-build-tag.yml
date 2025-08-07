@@ -35,5 +35,5 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t ${{ inputs.image-name }}:${{ inputs.image-tag }} ${{ inputs.dockerfile-path }} ${{ inputs.context }}
+          docker build -t ${{ inputs.image-name }}:${{ inputs.image-tag }} ${{ inputs.context }}
         working-directory: ${{ inputs.working-directory }}
