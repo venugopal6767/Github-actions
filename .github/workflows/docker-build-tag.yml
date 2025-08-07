@@ -17,11 +17,7 @@ on:
       context:
         required: false
         type: string
-        default: java-app/
-      working-directory:
-        required: false
-        type: string
-        default: .    
+        default: .   
  
 
 jobs:
